@@ -20,8 +20,15 @@ var_num_classes <- var(data$Num.Classes)
 var_hrs_classes <- var(data$Hrs.Classes)
 
 # generate boxplots
-boxplot(data$Pickups, main="Number of Daily Pickups")
-boxplot(Pickups~ID, data=data, main="Number of Daily Pickups by ID")
+boxplot(data$Total.ST.min, main="Daily Total Screen Time")
+boxplot(data$Pickups, main="Daily Number of Pickups")
+boxplot(data$Num.Classes, main="Daily Number of Classes")
+boxplot(data$Hrs.Classes, main="Daily Hours of Classes")
+
+boxplot(Total.ST.min~ID, data=data, main="Daily Total Screen Time by ID")
+boxplot(Pickups~ID, data=data, main="Daily Number of Pickups by ID")
+boxplot(Num.Classes~ID, data=data, main="Daily Number of Classes by ID")
+boxplot(Hrs.Classes~ID, data=data, main="Daily Hours of Classes by ID")
 
 # generate scatterplots
 data_sub <- select(data, "Total.ST.min", "Pickups", "Num.Classes", "Hrs.Classes")
