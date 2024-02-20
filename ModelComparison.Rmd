@@ -1,31 +1,37 @@
+#Federated Learning Linear Model
 ```{r}
-library(readr)
-neyan <- read_csv("~/Desktop/2024Spring/BIOSTAT620/neyan_data.csv")
-vikram <- read_csv("~/Desktop/2024Spring/BIOSTAT620/vikram_data.csv")
-ethan <- read_csv("~/Desktop/2024Spring/BIOSTAT620/ethan_data.csv")
+library(readxl)
+library(dplyr)
+
+neyan <- read_excel("VENTURE_baseline_data.xlsx", sheet="neyan_data")
+eawerner <- read_excel("VENTURE_baseline_data.xlsx", sheet="eawerner_data")
+vikbala <- read_excel("VENTURE_baseline_data.xlsx", sheet="vikbala_data")
 
 X_neyan <- as.matrix(cbind(1, neyan$Pickups, neyan$Num.Classes, neyan$Hrs.Classes))
 Y_neyan <- as.matrix(neyan$Total.ST.min)
 
-X_vikram <- as.matrix(cbind(1, vikram$Pickups, vikram$Num.Classes, vikram$Hrs.Classes))
-Y_vikram <- as.matrix(vikram$Total.ST.min)
+X_vikbala <- as.matrix(cbind(1, vikbala$Pickups, vikbala$Num.Classes, vikbala$Hrs.Classes))
+Y_vikbala <- as.matrix(vikbala$Total.ST.min)
 
-X_ethan <- as.matrix(cbind(1, ethan$Pickups, ethan$Num.Classes, ethan$Hrs.Classes))
-Y_ethan <- as.matrix(ethan$Total.ST.min)
+X_eawerner <- as.matrix(cbind(1, eawerner$Pickups, eawerner$Num.Classes, eawerner$Hrs.Classes))
+Y_eawerner <- as.matrix(eawerner$Total.ST.min)
 
-linearComponent <- function(Y,X){
-  XTX <- t(X) %*% X
-  XTY <- t(X) %*% Y
-  XTX_inv <- solve(XTX)
-  return(c(XTX, XTY, XTX_inv))
+XTX <- function(Y,X){
+  return(t(X) %*% X)
 }
-XTX_global <- linearComponent(Y_neyan, X_neyan)[1]+linearComponent(Y_vikram, X_vikram)[1]+linearComponent(Y_ethan, X_ethan)[1]
+XTY <- function(Y,X){
+  return(t(X) %*% Y)
+}
 
-XTY_global <- linearComponent(Y_neyan, X_neyan)[2]+linearComponent(Y_vikram, X_vikram)[2]+linearComponent(Y_ethan, X_ethan)[2]
+XTX_global <- XTX(Y_neyan, X_neyan) + XTX(Y_vikbala, X_vikbala) + XTX(Y_eawerner, X_eawerner)
+XTY_global <- XTY(Y_neyan, X_neyan) + XTY(Y_vikbala, X_vikbala) + XTY(Y_eawerner, X_eawerner)
 
 beta_global <- solve(XTX_global) %*% XTY_global
+```
 
-
+#Original Linear Model
+```{r}
 
 ```
+
 
