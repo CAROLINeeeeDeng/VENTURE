@@ -1,0 +1,30 @@
+```{r}
+library(readr)
+neyan <- read_csv("~/Desktop/2024Spring/BIOSTAT620/neyan_data.csv")
+vikram <- read_csv("~/Desktop/2024Spring/BIOSTAT620/vikram_data.csv")
+ethan <- read_csv("~/Desktop/2024Spring/BIOSTAT620/ethan_data.csv")
+
+X_neyan <- as.matrix(cbind(1, neyan$Pickups, neyan$Num.Classes, neyan$Hrs.Classes))
+Y_neyan <- as.matrix(neyan$Total.ST.min)
+
+X_vikram <- as.matrix(cbind(1, vikram$Pickups, vikram$Num.Classes, vikram$Hrs.Classes))
+Y_vikram <- as.matrix(vikram$Total.ST.min)
+
+X_ethan <- as.matrix(cbind(1, ethan$Pickups, ethan$Num.Classes, ethan$Hrs.Classes))
+Y_ethan <- as.matrix(ethan$Total.ST.min)
+
+linearComponent <- function(Y,X){
+  XTX <- t(X) %*% X
+  XTY <- t(X) %*% Y
+  XTX_inv <- solve(XTX)
+  return(c(XTX, XTY, XTX_inv))
+}
+XTX_global <- linearComponent(Y_neyan, X_neyan)[1]+linearComponent(Y_vikram, X_vikram)[1]+linearComponent(Y_ethan, X_ethan)[1]
+
+XTY_global <- linearComponent(Y_neyan, X_neyan)[2]+linearComponent(Y_vikram, X_vikram)[2]+linearComponent(Y_ethan, X_ethan)[2]
+
+beta_global <- solve(XTX_global) %*% XTY_global
+Y_pred_global <- X_global %*% beta_global
+
+```
+
