@@ -1,3 +1,5 @@
+
+
 #Federated Learning Linear Model
 ```{r}
 library(readxl)
@@ -39,4 +41,18 @@ mod <- lm(Total.ST.min ~ Pickups + Num.Classes + Hrs.Classes, data = combined_da
 print(mod$coefficients)
 ```
 
+#Assumption Test
+```{r}
+library(car)
+plot(mod)
+vif(mod)
+
+```
+
+# ACF
+```{r}
+acf_neyan = acf(neyan$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (neyan)")
+acf_eawerner = acf(eawerner$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (eawerner)")
+acf_vikbala = acf(vikbala$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (vikbala)")
+```
 
