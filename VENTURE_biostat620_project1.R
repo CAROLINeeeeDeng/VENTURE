@@ -17,21 +17,21 @@ sample_size <- nrow(data)
 var_total_st <- var(data$Total.ST.min)
 var_pickups <- var(data$Pickups)
 var_num_classes <- var(data$Num.Classes)
-var_hrs_classes <- var(data$Hrs.Classes)
+var_dpsst_classes <- var(data$DPSST)
 
 # generate boxplots
 boxplot(data$Total.ST.min, main="Daily Total Screen Time")
 boxplot(data$Pickups, main="Daily Number of Pickups")
 boxplot(data$Num.Classes, main="Daily Number of Classes")
-boxplot(data$Hrs.Classes, main="Daily Hours of Classes")
+boxplot(data$DPSST, main="Daily Proportion of Social Screen Time")
 
 boxplot(Total.ST.min~ID, data=data, main="Daily Total Screen Time by ID")
 boxplot(Pickups~ID, data=data, main="Daily Number of Pickups by ID")
 boxplot(Num.Classes~ID, data=data, main="Daily Number of Classes by ID")
-boxplot(Hrs.Classes~ID, data=data, main="Daily Hours of Classes by ID")
+boxplot(DPSST~ID, data=data, main="Daily Proportion of Social Screen Time by ID")
 
 # generate scatterplots
-data_sub <- select(data, "Total.ST.min", "Pickups", "Num.Classes", "Hrs.Classes")
+data_sub <- select(data, "Total.ST.min", "Pickups", "Num.Classes", "DPSST")
 plot(data_sub)
 plot(data_sub, col=as.factor(data$ID))
 
@@ -39,9 +39,9 @@ plot(data_sub, col=as.factor(data$ID))
 ggplot(aes(x=Date, y=Total.ST.min), data=data) + geom_line()
 ggplot(aes(x=Date, y=Pickups), data=data) + geom_line()
 ggplot(aes(x=Date, y=Num.Classes), data=data) + geom_line()
-ggplot(aes(x=Date, y=Hrs.Classes), data=data) + geom_line()
+ggplot(aes(x=Date, y=DPSST), data=data) + geom_line()
 
 ggplot(aes(x=Date, y=Total.ST.min, color=ID), data=data) + geom_line()
 ggplot(aes(x=Date, y=Pickups, color=ID), data=data) + geom_line()
 ggplot(aes(x=Date, y=Num.Classes, color=ID), data=data) + geom_line()
-ggplot(aes(x=Date, y=Hrs.Classes, color=ID), data=data) + geom_line()
+ggplot(aes(x=Date, y=DPSST, color=ID), data=data) + geom_line()
