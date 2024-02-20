@@ -1,5 +1,3 @@
-
-
 #Federated Learning Linear Model
 ```{r}
 library(readxl)
@@ -54,5 +52,9 @@ vif(mod)
 acf_neyan = acf(neyan$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (neyan)")
 acf_eawerner = acf(eawerner$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (eawerner)")
 acf_vikbala = acf(vikbala$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (vikbala)")
+print(acf_neyan)
+print(acf_eawerner)
+print(acf_vikbala)
 ```
+
 
