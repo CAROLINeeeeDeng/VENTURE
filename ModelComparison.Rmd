@@ -24,7 +24,8 @@ XTX_global <- linearComponent(Y_neyan, X_neyan)[1]+linearComponent(Y_vikram, X_v
 XTY_global <- linearComponent(Y_neyan, X_neyan)[2]+linearComponent(Y_vikram, X_vikram)[2]+linearComponent(Y_ethan, X_ethan)[2]
 
 beta_global <- solve(XTX_global) %*% XTY_global
-Y_pred_global <- X_global %*% beta_global
+
+
 
 ```
 
