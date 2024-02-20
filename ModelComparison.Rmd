@@ -26,12 +26,17 @@ XTY <- function(Y,X){
 XTX_global <- XTX(Y_neyan, X_neyan) + XTX(Y_vikbala, X_vikbala) + XTX(Y_eawerner, X_eawerner)
 XTY_global <- XTY(Y_neyan, X_neyan) + XTY(Y_vikbala, X_vikbala) + XTY(Y_eawerner, X_eawerner)
 
-beta_global <- solve(XTX_global) %*% XTY_global
+beta_global <- as.numeric(solve(XTX_global) %*% XTY_global)
+coef_names <- c("(Intercept)", "Pickups", "Num.Classes", "Hrs.Classes")
+names(beta_global_vector) <- coef_names
+print(beta_global)
 ```
 
 #Original Linear Model
 ```{r}
-
+combined_data <- read_excel("VENTURE_baseline_data.xlsx", sheet="combined_raw_data")
+mod <- lm(Total.ST.min ~ Pickups + Num.Classes + Hrs.Classes, data = combined_data)
+print(mod$coefficients)
 ```
 
 
