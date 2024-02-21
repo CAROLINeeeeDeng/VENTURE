@@ -7,13 +7,13 @@ neyan <- read_excel("VENTURE_baseline_data.xlsx", sheet="neyan_data")
 eawerner <- read_excel("VENTURE_baseline_data.xlsx", sheet="eawerner_data")
 vikbala <- read_excel("VENTURE_baseline_data.xlsx", sheet="vikbala_data")
 
-X_neyan <- as.matrix(cbind(1, neyan$Pickups, neyan$Num.Classes, neyan$Hrs.Classes))
+X_neyan <- as.matrix(cbind(1, neyan$Pickups, neyan$Num.Classes, neyan$DPSST))
 Y_neyan <- as.matrix(neyan$Total.ST.min)
 
-X_vikbala <- as.matrix(cbind(1, vikbala$Pickups, vikbala$Num.Classes, vikbala$Hrs.Classes))
+X_vikbala <- as.matrix(cbind(1, vikbala$Pickups, vikbala$Num.Classes, vikbala$DPSST))
 Y_vikbala <- as.matrix(vikbala$Total.ST.min)
 
-X_eawerner <- as.matrix(cbind(1, eawerner$Pickups, eawerner$Num.Classes, eawerner$Hrs.Classes))
+X_eawerner <- as.matrix(cbind(1, eawerner$Pickups, eawerner$Num.Classes, eawerner$DPSST))
 Y_eawerner <- as.matrix(eawerner$Total.ST.min)
 
 XTX <- function(Y,X){
@@ -28,14 +28,14 @@ XTY_global <- XTY(Y_neyan, X_neyan) + XTY(Y_vikbala, X_vikbala) + XTY(Y_eawerner
 
 beta_global <- as.numeric(solve(XTX_global) %*% XTY_global)
 coef_names <- c("(Intercept)", "Pickups", "Num.Classes", "Hrs.Classes")
-names(beta_global_vector) <- coef_names
+names(beta_global) <- coef_names
 print(beta_global)
 ```
 
 #Original Linear Model
 ```{r}
 combined_data <- read_excel("VENTURE_baseline_data.xlsx", sheet="combined_raw_data")
-mod <- lm(Total.ST.min ~ Pickups + Num.Classes + Hrs.Classes, data = combined_data)
+mod <- lm(Total.ST.min ~ Pickups + Num.Classes + DPSST, data = combined_data)
 print(mod$coefficients)
 ```
 
@@ -47,7 +47,7 @@ vif(mod)
 
 ```
 
-# ACF
+#ACF
 ```{r}
 acf_neyan = acf(neyan$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (neyan)")
 acf_eawerner = acf(eawerner$Total.ST.min, plot = TRUE, main="ACF of Daily Total Screen Time (eawerner)")
