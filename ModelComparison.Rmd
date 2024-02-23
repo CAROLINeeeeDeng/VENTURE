@@ -25,6 +25,10 @@ RSS <- function(Y, X, beta) {
   residuals <- Y - X %*% beta
   return(t(residuals) %*% residuals)
 }
+#Since we already have the mean values for each one of us, we can calculate the global mean.
+mean_globalY <- 264.381 + 338.881 + 450.119
+n <- 42*3
+p <- 4
 ```
 
 #Getting XTX and XTY From neyan
@@ -66,25 +70,30 @@ names(beta_global) <- coef_names
 print(beta_global)
 ```
 
+#Using the global beta and three mean screen time values we got
+#Getting RSS and TSS From neyan
 ```{r}
-# Using the global beta and three mean screen time values we got
-mean_globalY <- mean(c(mean(Y_neyan), mean(Y_vikbala), mean(Y_eawerner)))
-
-
 RSS_neyan <- RSS(Y_neyan, X_neyan, beta_global)
 TSS_neyan <- sum((Y_neyan - mean_globalY)^2)
+```
 
+#Getting RSS and TSS From vikbala
+```{r}
 RSS_vikbala <- RSS(Y_vikbala, X_vikbala, beta_global)
 TSS_vikbala <- sum((Y_vikbala - mean_globalY)^2)
+```
 
+#Getting RSS and TSS From eawerner
+```{r}
 RSS_eawerner <- RSS(Y_eawerner, X_eawerner, beta_global)
 TSS_eawerner <- sum((Y_eawerner - mean_globalY)^2)
+```
 
+```{r}
+#Using shared RSS and TSS
 RSS_global <- RSS_neyan + RSS_vikbala + RSS_eawerner
 TSS_global <- TSS_neyan + TSS_vikbala + TSS_eawerner
 
-n <- 42*3
-p <- 4
 regression_variance_global <- as.numeric(RSS_global / (n - p))
 var_cov_matrix_global <- regression_variance_global * solve(XTX_global)
 standard_errors_global <- sqrt(diag(var_cov_matrix_global))
