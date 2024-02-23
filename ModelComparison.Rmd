@@ -23,6 +23,10 @@ XTY <- function(Y,X){
   return(t(X) %*% Y)
 }
 
+```
+
+#Global Computing
+```{r}
 XTX_global <- XTX(Y_neyan, X_neyan) + XTX(Y_vikbala, X_vikbala) + XTX(Y_eawerner, X_eawerner)
 XTY_global <- XTY(Y_neyan, X_neyan) + XTY(Y_vikbala, X_vikbala) + XTY(Y_eawerner, X_eawerner)
 
@@ -31,6 +35,29 @@ coef_names <- c("(Intercept)", "Pickups", "Num.Classes", "Hrs.Classes")
 names(beta_global) <- coef_names
 print(beta_global)
 ```
+
+```{r}
+RSS <- function(Y, X, beta) {
+  residuals <- Y - X %*% beta
+  return(t(residuals) %*% residuals)
+}
+
+RSS_neyan <- RSS(Y_neyan, X_neyan, beta_global)
+RSS_vikbala <- RSS(Y_vikbala, X_vikbala, beta_global)
+RSS_eawerner <- RSS(Y_eawerner, X_eawerner, beta_global)
+
+RSS_global <- RSS_neyan + RSS_vikbala + RSS_eawerner
+mean_globalY <- mean(c(mean(Y_neyan), mean(Y_vikbala), mean(Y_eawerner)))
+
+n <- 42*3
+p <- 4
+regression_variance_global <- as.numeric(RSS_global / (n - p))
+var_cov_matrix_global <- regression_variance_global * solve(XTX_global)
+standard_errors_global <- sqrt(diag(var_cov_matrix_global))
+TSS_global <- sum((Y_neyan - mean_globalY)^2) + sum((Y_vikbala - mean_globalY)^2) + sum((Y_eawerner - mean_globalY)^2)
+R_squared_global <- 1 - (RSS_global / TSS_global)
+```
+
 
 #Original Linear Model
 ```{r}
