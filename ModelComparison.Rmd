@@ -89,6 +89,7 @@ RSS_eawerner <- RSS(Y_eawerner, X_eawerner, beta_global)
 TSS_eawerner <- sum((Y_eawerner - mean_globalY)^2)
 ```
 
+#Global Computing Standard Errors and R_Squared
 ```{r}
 #Using shared RSS and TSS
 RSS_global <- RSS_neyan + RSS_vikbala + RSS_eawerner
