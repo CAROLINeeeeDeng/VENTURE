@@ -37,27 +37,36 @@ print(beta_global)
 ```
 
 ```{r}
+mean_globalY <- mean(c(mean(Y_neyan), mean(Y_vikbala), mean(Y_eawerner)))
+
 RSS <- function(Y, X, beta) {
   residuals <- Y - X %*% beta
   return(t(residuals) %*% residuals)
 }
 
 RSS_neyan <- RSS(Y_neyan, X_neyan, beta_global)
+TSS_neyan <- sum((Y_neyan - mean(Y_neyan))^2)
+
 RSS_vikbala <- RSS(Y_vikbala, X_vikbala, beta_global)
+TSS_vikbala <- sum((Y_vikbala - mean(Y_vikbala))^2)
+
 RSS_eawerner <- RSS(Y_eawerner, X_eawerner, beta_global)
+TSS_eawerner <- sum((Y_eawerner - mean(Y_eawerner))^2)
+
 
 RSS_global <- RSS_neyan + RSS_vikbala + RSS_eawerner
-mean_globalY <- mean(c(mean(Y_neyan), mean(Y_vikbala), mean(Y_eawerner)))
+TSS_global <- TSS_neyan + TSS_vikbala + TSS_eawerner
 
 n <- 42*3
 p <- 4
 regression_variance_global <- as.numeric(RSS_global / (n - p))
 var_cov_matrix_global <- regression_variance_global * solve(XTX_global)
 standard_errors_global <- sqrt(diag(var_cov_matrix_global))
-TSS_global <- sum((Y_neyan - mean_globalY)^2) + sum((Y_vikbala - mean_globalY)^2) + sum((Y_eawerner - mean_globalY)^2)
 R_squared_global <- 1 - (RSS_global / TSS_global)
-```
 
+print(standard_errors_global)
+print(R_squared_global)
+```
 
 #Original Linear Model
 ```{r}
